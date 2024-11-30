@@ -1,101 +1,122 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+enum EstadosEnum {
+  disponible = "disponible",
+  alquilado = "alquilado",
+  mantenimiento = "mantenimiento",
+}
+
+type Inputs = {
+  marca: string;
+  modelo: string;
+  estado: string;
+};
+
+interface Vehiculo {
+  id: number;
+  marca: string;
+  modelo: string;
+  estado: EstadosEnum;
+}
+
+const url = "https://alquiler-autos-iwwh.onrender.com/api/vehiculos";
+// const url = "http://localhost:3000/api/vehiculos";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  const [vehiculos, setVehiculos] = useState<Vehiculo[]>([]);
+
+  useEffect(() => {
+    async function getVehiculos() {
+      const response = await fetch(url);
+      const data = await response.json();
+      setVehiculos(data);
+    }
+
+    getVehiculos();
+
+    console.log(vehiculos);
+  }, []);
+
+  const deleteVehiculo = async (id: number) => {
+    await fetch(`${url}${id}`, {
+      method: "DELETE",
+    });
+  };
+
+  const updateVehiculo = async (id: number, vehiculo: Vehiculo) => {
+    await fetch(`${url}${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vehiculo),
+    });
+
+    console.log(vehiculo);
+  };
+
+  return (
+    <div className="">
+      <h1>Gestión de Vehículos</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <label htmlFor="marca">Marca:</label>
+        <input {...register("marca", { required: true })} />
+
+        <label htmlFor="modelo">Modelo:</label>
+        <input {...register("modelo", { required: true })} />
+
+        <label htmlFor="estado">Estado:</label>
+        <select {...register("estado")}>
+          <option value="disponible">Disponible</option>
+          <option value="alquilado">Alquilado</option>
+          <option value="mantenimiento">Mantenimiento</option>
+        </select>
+
+        <button type="submit">Añadir Vehículo</button>
+      </form>
+
+      <table id="vehicle-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {vehiculos?.map((vehiculo) => (
+            <tr key={vehiculo.id}>
+              <td>{vehiculo.id}</td>
+              <td>{vehiculo.marca}</td>
+              <td>{vehiculo.modelo}</td>
+              <td>{vehiculo.estado}</td>
+              <td>
+                <button
+                  className="mr-2"
+                  onClick={() => deleteVehiculo(vehiculo.id)}
+                >
+                  Eliminar
+                </button>
+                <button onClick={() => updateVehiculo(vehiculo.id, vehiculo)}>
+                  Actualizar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

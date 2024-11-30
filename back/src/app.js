@@ -1,10 +1,13 @@
 import express from "express";
 import morgan from "morgan";
+import cors from "cors";
 
 import vehiculosRoutes from "./routes/vehiculos.routes.js";
 import indexRoutes from "./routes/index.routes.js";
 
 const app = express();
+
+app.use(cors());
 
 // Middlewares
 app.use(morgan("dev"));
