@@ -27,12 +27,7 @@ const url = "https://alquiler-autos-iwwh.onrender.com/api/vehiculos";
 // const url = "http://localhost:3000/api/vehiculos";
 
 export default function Home() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { register, handleSubmit, setValue } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     if (modo === "editar") {
       updateVehiculo(data.id!, {
@@ -62,6 +57,7 @@ export default function Home() {
     }
 
     getVehiculos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addVehiculo = async (vehiculo: Vehiculo) => {
