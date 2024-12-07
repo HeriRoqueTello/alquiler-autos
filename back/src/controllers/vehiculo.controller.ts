@@ -1,10 +1,9 @@
 // src/controllers/vehiculoController.ts
 import { Request, Response } from 'express';
-import Vehiculo from '../models/Vehiculo';
-import { dbConnect } from '../utils/mongoose';
+import { Vehiculo } from '../models/Vehiculo';
 
 export const getVehiculos = async (req: Request, res: Response) => {
-  await dbConnect();
+
   try {
     const vehiculos = await Vehiculo.find();
     res.json(vehiculos);
@@ -14,7 +13,7 @@ export const getVehiculos = async (req: Request, res: Response) => {
 };
 
 export const createVehiculo = async (req: Request, res: Response) => {
-  await dbConnect();
+
   try {
     const newVehiculo = new Vehiculo(req.body);
     const savedVehiculo = await newVehiculo.save();
