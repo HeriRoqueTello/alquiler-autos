@@ -4,12 +4,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { RolEnum, Usuario } from "../../utils/types";
 import Alert from "./components/alert";
 import { useEffect } from "react";
+import { registerUsuario } from "@/app/utils/api/usuario.api";
 
 type Inputs = {
   id?: number;
   nombre: string;
   apellidos: string;
   email: string;
+  telefono: string;
   password: string;
   passwordconfirm: string;
   rol: RolEnum;
@@ -28,19 +30,20 @@ export default function Page() {
     const usuario: Usuario = {
       nombre: fullName,
       email: data.email,
+      telefono: data.telefono,
       password: data.password,
       rol: RolEnum.cliente,
     };
     console.log(usuario);
-    // addUsuario(usuario);
+    addUsuario(usuario);
   };
 
   useEffect(() => {}, []);
 
-  // const addUsuario = async (usuario: Usuario) => {
-  //   // const response = await fetch
-  //   // console.log(data);
-  // };
+  const addUsuario = async (usuario: Usuario) => {
+    const { data } = await registerUsuario(usuario);
+    console.log(data);
+  };
 
   return (
     <div>
@@ -159,6 +162,21 @@ export default function Page() {
                     className="mt-1 w-full py-2 px-4 rounded-md border-gray-200 border bg-white text-sm text-gray-700 shadow-sm"
                   />
                   {errors.email && <Alert />}
+                </div>
+                <div className="col-span-6">
+                  <label
+                    htmlFor="telefono"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    {" "}
+                    Telefono{" "}
+                  </label>
+
+                  <input
+                    {...register("telefono", { required: true })}
+                    className="mt-1 w-full py-2 px-4 rounded-md border-gray-200 border bg-white text-sm text-gray-700 shadow-sm"
+                  />
+                  {errors.telefono && <Alert />}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
