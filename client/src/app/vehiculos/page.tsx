@@ -3,36 +3,27 @@
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import "./(styles)/vehiculos.css";
-
-enum EstadosEnum {
-  disponible = "disponible",
-  alquilado = "alquilado",
-  mantenimiento = "mantenimiento",
-}
+import { EstadosEnum, Vehiculo } from "../utils/types";
+import {
+  createVehiculo,
+  deleteVehiculo,
+  getAllVehiculos,
+  updateVehiculo,
+} from "../utils/api/vehiculo.api";
+import { Table } from "./components/Table";
 
 type Inputs = {
-  id?: number;
+  id?: string;
   marca: string;
   modelo: string;
   estado: EstadosEnum;
 };
 
-interface Vehiculo {
-  _id?: number;
-  marca: string;
-  modelo: string;
-  estado: EstadosEnum;
-}
-
-const url = "https://alquiler-autos-iwwh.onrender.com/api/vehiculos";
-// const url = "http://localhost:3000/api/vehiculos";
-// const url = `https://alquiler-autos-beta.vercel.app/api/vehiculos`;
-
 export default function Vehiculos() {
   const { register, handleSubmit, setValue } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (modo === "editar") {
-      updateVehiculo(data.id!, {
+      modificarVehiculo(data.id!, {
         marca: data.marca,
         modelo: data.modelo,
         estado: data.estado as EstadosEnum,
@@ -49,17 +40,19 @@ export default function Vehiculos() {
 
   const [vehiculos, setVehiculos] = useState<Vehiculo[]>([]);
   const [modo, setModo] = useState("crear");
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function getVehiculos() {
       try {
-        const response = await fetch(url);
-        const data = await response.json();
+        const { data } = await getAllVehiculos();
         if (!Array.isArray(data)) {
           console.log("Error bd no datos");
+          setLoading(false);
           return;
         }
         setVehiculos(data);
+        setLoading(false);
         console.log(data);
       } catch (error) {
         console.error(error);
@@ -71,30 +64,22 @@ export default function Vehiculos() {
   }, []);
 
   const addVehiculo = async (vehiculo: Vehiculo) => {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(vehiculo),
-    });
+    const { data } = await createVehiculo(vehiculo);
 
-    const { _id } = await response.json();
+    const { _id } = data;
 
     vehiculo = { ...vehiculo, _id };
 
     setVehiculos([...vehiculos, vehiculo]);
   };
 
-  const deleteVehiculo = async (id: number) => {
-    await fetch(`${url}/${id}`, {
-      method: "DELETE",
-    });
+  const eliminarVehiculo = async (id: string) => {
+    await deleteVehiculo(id);
 
     setVehiculos(vehiculos.filter((v) => v._id !== id));
   };
 
-  const modoEditar = (id: number, vehiculo: Vehiculo) => {
+  const modoEditar = (id: string, vehiculo: Vehiculo) => {
     setModo("editar");
     setValue("id", id);
     setValue("marca", vehiculo.marca);
@@ -102,14 +87,8 @@ export default function Vehiculos() {
     setValue("estado", vehiculo.estado);
   };
 
-  const updateVehiculo = async (id: number, vehiculo: Vehiculo) => {
-    await fetch(`${url}/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(vehiculo),
-    });
+  const modificarVehiculo = async (id: string, vehiculo: Vehiculo) => {
+    await updateVehiculo(id, vehiculo);
 
     setValue("id", undefined);
     setValue("marca", "");
@@ -152,36 +131,15 @@ export default function Vehiculos() {
         </button>
       </form>
 
-      <table id="vehicle-table">
-        <thead>
-          <tr>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {vehiculos?.map((vehiculo) => (
-            <tr key={vehiculo._id}>
-              <td>{vehiculo.marca}</td>
-              <td>{vehiculo.modelo}</td>
-              <td className="uppercase">{vehiculo.estado}</td>
-              <td>
-                <button
-                  className="mr-2"
-                  onClick={() => deleteVehiculo(vehiculo._id!)}
-                >
-                  Eliminar
-                </button>
-                <button onClick={() => modoEditar(vehiculo._id!, vehiculo)}>
-                  Actualizar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {loading ? (
+        <span>Cargando...</span>
+      ) : (
+        <Table
+          vehiculos={vehiculos}
+          eliminarVehiculo={eliminarVehiculo}
+          modoEditar={modoEditar}
+        />
+      )}
     </div>
   );
 }
