@@ -19,7 +19,6 @@ export default function Page() {
   const {
     register,
     handleSubmit,
-    setValue,
     getValues,
     formState: { errors },
   } = useForm<Inputs>();
