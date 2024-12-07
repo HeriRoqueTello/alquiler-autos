@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import "./(styles)/vehiculos.css";
 import { EstadosEnum, Vehiculo } from "../../utils/types";
 import {
   createVehiculo,
@@ -111,24 +110,46 @@ export default function Vehiculos() {
   };
 
   return (
-    <div className="">
-      <h1>Gestión de Vehículos</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("id")} hidden />
+    <div className="container mx-auto">
+      <h1 className="text-2xl text-center">Gestión de Vehículos</h1>
+      <form
+        className="flex flex-col gap-4 my-4 w-full md:w-2/3 mx-auto lg:w-1/3"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <input
+          className="border-gray-400 border w-full py-2 rounded px-5"
+          {...register("id")}
+          hidden
+        />
         <label htmlFor="marca">Marca:</label>
-        <input {...register("marca", { required: true })} />
+        <input
+          id="marca"
+          className="border-gray-400 border w-full py-2 rounded px-5 text-gray-700"
+          {...register("marca", { required: true })}
+        />
 
         <label htmlFor="modelo">Modelo:</label>
-        <input {...register("modelo", { required: true })} />
+        <input
+          id="modelo"
+          className="border-gray-400 border w-full py-2 rounded px-5 text-gray-700"
+          {...register("modelo", { required: true })}
+        />
 
         <label htmlFor="estado">Estado:</label>
-        <select {...register("estado")}>
+        <select
+          id="estado"
+          className="mt-1.5 w-full rounded border-gray-400 border py-2 px-4 text-gray-700"
+          {...register("estado")}
+        >
           <option value="disponible">Disponible</option>
           <option value="alquilado">Alquilado</option>
           <option value="mantenimiento">Mantenimiento</option>
         </select>
 
-        <button type="submit">
+        <button
+          className="py-2 px-5 rounded bg-indigo-500 hover:bg-indigo-800 text-white delay-75 transition-all"
+          type="submit"
+        >
           {modo === "crear" ? "Añadir" : "Editar"} Vehículo
         </button>
       </form>

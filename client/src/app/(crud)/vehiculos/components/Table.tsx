@@ -13,29 +13,47 @@ export const Table: React.FC<TableProps> = ({
 }) => {
   return (
     <>
-      <table id="vehicle-table">
-        <thead>
+      <table
+        className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm"
+        id="vehicle-table"
+      >
+        <thead className="ltr:text-left rtl:text-right">
           <tr>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Estado</th>
-            <th>Acciones</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              Marca
+            </th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              Modelo
+            </th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              Estado
+            </th>
+            <th className="px-4 py-2"></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="divide-y divide-gray-200 text-center">
           {vehiculos?.map((vehiculo) => (
             <tr key={vehiculo._id}>
-              <td>{vehiculo.marca}</td>
-              <td>{vehiculo.modelo}</td>
-              <td className="uppercase">{vehiculo.estado}</td>
-              <td>
+              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
+                {vehiculo.marca}
+              </td>
+              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
+                {vehiculo.modelo}
+              </td>
+              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 uppercase">
+                {vehiculo.estado}
+              </td>
+              <td className="space-x-2">
                 <button
-                  className="mr-2"
+                  className="rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700 delay-100 transition-colors"
                   onClick={() => eliminarVehiculo(vehiculo._id!)}
                 >
                   Eliminar
                 </button>
-                <button onClick={() => modoEditar(vehiculo._id!, vehiculo)}>
+                <button
+                  className="rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700 delay-100 transition-colors"
+                  onClick={() => modoEditar(vehiculo._id!, vehiculo)}
+                >
                   Actualizar
                 </button>
               </td>
