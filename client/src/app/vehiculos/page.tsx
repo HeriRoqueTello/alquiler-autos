@@ -18,14 +18,14 @@ type Inputs = {
 };
 
 interface Vehiculo {
-  id?: number;
+  _id?: number;
   marca: string;
   modelo: string;
   estado: EstadosEnum;
 }
 
-const url = "https://alquiler-autos-iwwh.onrender.com/api/vehiculos";
-// const url = "http://localhost:3000/api/vehiculos";
+// const url = "https://alquiler-autos-iwwh.onrender.com/api/vehiculos";
+const url = "http://localhost:3000/api/vehiculos";
 
 export default function Vehiculos() {
   const { register, handleSubmit, setValue } = useForm<Inputs>();
@@ -51,10 +51,18 @@ export default function Vehiculos() {
 
   useEffect(() => {
     async function getVehiculos() {
-      const response = await fetch(url);
-      const data = await response.json();
-      setVehiculos(data);
-      console.log(vehiculos);
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (!Array.isArray(data)) {
+          console.log("Error bd no datos");
+          return;
+        }
+        setVehiculos(data);
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     getVehiculos();
@@ -70,9 +78,9 @@ export default function Vehiculos() {
       body: JSON.stringify(vehiculo),
     });
 
-    const { id } = await response.json();
+    const { _id } = await response.json();
 
-    vehiculo = { ...vehiculo, id };
+    vehiculo = { ...vehiculo, _id };
 
     setVehiculos([...vehiculos, vehiculo]);
   };
@@ -82,7 +90,7 @@ export default function Vehiculos() {
       method: "DELETE",
     });
 
-    setVehiculos(vehiculos.filter((v) => v.id !== id));
+    setVehiculos(vehiculos.filter((v) => v._id !== id));
   };
 
   const modoEditar = (id: number, vehiculo: Vehiculo) => {
@@ -95,7 +103,7 @@ export default function Vehiculos() {
 
   const updateVehiculo = async (id: number, vehiculo: Vehiculo) => {
     await fetch(`${url}/${id}`, {
-      method: "PATCH",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -110,8 +118,8 @@ export default function Vehiculos() {
 
     setVehiculos(
       vehiculos.map((v) => {
-        if (v.id === id) {
-          vehiculo.id = id;
+        if (v._id === id) {
+          vehiculo._id = id;
           return vehiculo;
         }
         return v;
@@ -146,7 +154,6 @@ export default function Vehiculos() {
       <table id="vehicle-table">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Marca</th>
             <th>Modelo</th>
             <th>Estado</th>
@@ -155,19 +162,18 @@ export default function Vehiculos() {
         </thead>
         <tbody>
           {vehiculos?.map((vehiculo) => (
-            <tr key={vehiculo.id}>
-              <td>{vehiculo.id}</td>
+            <tr key={vehiculo._id}>
               <td>{vehiculo.marca}</td>
               <td>{vehiculo.modelo}</td>
               <td className="uppercase">{vehiculo.estado}</td>
               <td>
                 <button
                   className="mr-2"
-                  onClick={() => deleteVehiculo(vehiculo.id!)}
+                  onClick={() => deleteVehiculo(vehiculo._id!)}
                 >
                   Eliminar
                 </button>
-                <button onClick={() => modoEditar(vehiculo.id!, vehiculo)}>
+                <button onClick={() => modoEditar(vehiculo._id!, vehiculo)}>
                   Actualizar
                 </button>
               </td>

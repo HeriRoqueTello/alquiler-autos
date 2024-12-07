@@ -36,7 +36,8 @@ export default function Page() {
     addUsuario(usuario);
   };
 
-  const url = "https://alquiler-autos-iwwh.onrender.com/api/usuarios";
+  // const url = "https://alquiler-autos-iwwh.onrender.com/api/usuarios"
+  const url = "http://localhost:3000/api/usuarios";
 
   useEffect(() => {}, []);
 
