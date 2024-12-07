@@ -55,6 +55,8 @@ export default function Vehiculos() {
         setLoading(false);
         console.log(data);
       } catch (error) {
+        setLoading(false);
+        setVehiculos([]);
         console.error(error);
       }
     }
