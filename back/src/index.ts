@@ -1,15 +1,8 @@
-// src/index.ts
-import express from 'express';
-import vehiculoRoutes from './routes/vehiculo.router';
-import cors from 'cors';
+import colors from 'colors';
+import server from "./server";
 
-const app = express();
-const PORT = process.env.PORT || 2222;
-app.use(cors());
+const port = process.env.PORT || 4000;
 
-app.use(express.json());
-app.use('/api', vehiculoRoutes);
-
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+server.listen(port, () => {
+  console.log(colors.magenta.bold(`Servidor Funcionando en el puerto ${port}`));
 });
