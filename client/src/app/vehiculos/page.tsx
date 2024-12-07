@@ -26,7 +26,7 @@ interface Vehiculo {
 
 // const url = "https://alquiler-autos-iwwh.onrender.com/api/vehiculos";
 // const url = "http://localhost:3000/api/vehiculos";
-const url = `${`${window.location.origin}`}/api/vehiculos`;
+const url = `https://alquiler-autos-beta.vercel.app/api/vehiculos`;
 
 export default function Vehiculos() {
   const { register, handleSubmit, setValue } = useForm<Inputs>();
