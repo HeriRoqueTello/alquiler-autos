@@ -3,10 +3,23 @@ export enum RolEnum {
   cliente = "cliente",
 }
 
+export enum EstadosEnum {
+  disponible = "disponible",
+  alquilado = "alquilado",
+  mantenimiento = "mantenimiento",
+}
+
 export interface Usuario {
-  id?: number;
+  id?: string;
   nombre: string;
   email: string;
   password: string;
   rol: RolEnum;
+}
+
+export interface Vehiculo {
+  _id?: string;
+  marca: string;
+  modelo: string;
+  estado: EstadosEnum;
 }
