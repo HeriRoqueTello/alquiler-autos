@@ -10,7 +10,7 @@ export enum EstadosEnum {
 }
 
 export interface Usuario {
-  id?: string;
+  _id?: string;
   nombre: string;
   email: string;
   telefono: string;
