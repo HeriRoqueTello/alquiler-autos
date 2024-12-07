@@ -6,7 +6,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   telefono?: string;
-  rol: 'usuario' | 'empleado';
+  rol: 'cliente' | 'admin';
   compararPassword(candidatePassword: string): Promise<boolean>;
 }
 
@@ -15,7 +15,7 @@ const userSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   telefono: { type: String },
-  rol: { type: String, enum: ['usuario', 'empleado'], required: true }
+  rol: { type: String, enum: ['cliente', 'admin'], required: true }
 });
 
 // Middleware para encriptar la contraseña antes de guardarla
