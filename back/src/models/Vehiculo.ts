@@ -5,10 +5,13 @@ export interface ITarifa {
   tarifaBase: number;
 }
 
+type Estado = 'disponible' | 'reservado' | 'mantenimiento';
+
 export interface IVehicle extends Document {
   marca: string;
   modelo: string;
-  estado: string;
+  estado: Estado;
+  imagen: string;
   tarifas: ITarifa[];
 }
 
@@ -21,6 +24,7 @@ const vehicleSchema = new Schema<IVehicle>({
   marca: { type: String, required: true },
   modelo: { type: String, required: true },
   estado: { type: String, required: true },
+  imagen: { type: String, required: true },
   tarifas: [tarifaSchema]
 });
 
