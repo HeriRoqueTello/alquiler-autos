@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { RolEnum, Usuario } from "../../utils/types";
+import { RolEnum, Usuario } from "../../../types/Vehiculo.types";
 import Alert from "./components/alert";
 import { useEffect } from "react";
-import { registerUsuario } from "@/app/utils/api/usuario.api";
+import { registerUsuario } from "@/services/usuario.service";
 
 type Inputs = {
   id?: number;
