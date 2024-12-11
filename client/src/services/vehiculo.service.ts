@@ -5,7 +5,6 @@ const URL = "/api/vehiculos";
 
 export const getAllVehiculos = async (): Promise<Vehiculo[]> => {
   const { data } = await axiosInstance.get(URL)
-  console.log(data)
   return data;
 };
 export const getVehiculo = (id: string) => axiosInstance.get(`${URL}/${id}`);
