@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { RolEnum, Usuario } from "../../../types/Vehiculo.types";
+import { RolEnum, Usuario } from "@/types/Usuario.types";
 import Alert from "./components/alert";
 import { useEffect } from "react";
 import { registerUsuario } from "@/services/usuario.service";
