@@ -7,11 +7,13 @@ import { ArrowUpDown } from "lucide-react";
 import DataTableRowActions from "./row-actions";
 
 interface VehiculosColumnsProps {
+  onView: (vehiculo: Vehiculo) => void;
   onEdit: (vehiculo: Vehiculo) => void;
   onDelete: (vehiculo: Vehiculo) => void;
 }
 
 export const getVehiculosColumns = ({
+  onView,
   onEdit,
   onDelete,
 }: VehiculosColumnsProps): ColumnDef<Vehiculo>[] => [
@@ -44,7 +46,12 @@ export const getVehiculosColumns = ({
   {
     id: "actions",
     cell: ({ row }) => (
-      <DataTableRowActions row={row} onEdit={onEdit} onDelete={onDelete} />
+      <DataTableRowActions
+        row={row}
+        onView={onView}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
     ),
   },
 ];
