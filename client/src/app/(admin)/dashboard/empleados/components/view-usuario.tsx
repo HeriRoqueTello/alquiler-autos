@@ -5,7 +5,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Usuario } from "@/types/Vehiculo.types";
+import { Usuario } from "@/types/Usuario.types";
 
 interface SheetViewUsuarioProps {
   usuario: Usuario | null;
