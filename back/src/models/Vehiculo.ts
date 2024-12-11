@@ -1,7 +1,7 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface ITarifa {
-  tipoVehiculo: string;
+  ageModel: number;
   tarifaBase: number;
 }
 
@@ -16,7 +16,7 @@ export interface IVehicle extends Document {
 }
 
 const tarifaSchema = new Schema<ITarifa>({
-  tipoVehiculo: { type: String, required: true },
+  ageModel: { type: Number, required: true },
   tarifaBase: { type: Number, required: true }
 });
 

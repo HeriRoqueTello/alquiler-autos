@@ -10,7 +10,7 @@ export async function dbConnect() {
   }
 
   const db = await connect(
-    process.env.MONGODB_URI || "mongodb+srv://admin:admin@cluster0.f2gew.mongodb.net/alquilerbd"
+    process.env.MONGODB_URI
   );
   // console.log(db.connection.db.databaseName);
   conn.isConnected = db.connections[0].readyState === 1;
