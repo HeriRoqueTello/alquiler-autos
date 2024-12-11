@@ -1,4 +1,5 @@
 import { Request, RequestHandler, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { User } from '../models/Usuario';
 
 export const getUsers = async (req: Request, res: Response) => {
@@ -22,9 +23,10 @@ export const createUser = async (req: Request, res: Response) => {
   }
 };
 
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
 export const loginUser: RequestHandler = async (req: Request, res: Response): Promise<void> => {
-
-
   const { email, password } = req.body;
 
   try {
@@ -40,11 +42,15 @@ export const loginUser: RequestHandler = async (req: Request, res: Response): Pr
       return;
     }
 
-    res.json({ message: 'Inicio de sesión exitoso' });
+    // Generar el token JWT
+    const token = jwt.sign({ id: user._id, nombre: user.nombre, email: user.email, telefono: user.telefono, role: user.rol }, JWT_SECRET, { expiresIn: '1h' });
+
+    res.json({ message: 'Inicio de sesión exitoso', token });
   } catch (err) {
     res.status(500).json({ message: 'Error del servidor' });
   }
 }
+
 
 export const getUserById = async (req: Request, res: Response) => {
 
