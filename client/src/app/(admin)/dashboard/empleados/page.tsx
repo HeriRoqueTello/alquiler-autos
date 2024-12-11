@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { queryKeys } from "@/services/queryKey.service";
-import { deleteUsuario, getAllUsuarios } from "@/services/usuario.service";
+import { deleteUsuario, getUsuariosByRol } from "@/services/usuario.service";
 import { Usuario } from "@/types/Usuario.types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo, useState } from "react";
@@ -19,7 +19,7 @@ export default function Page() {
   const { toast } = useToast();
   const { data: usuarios, isFetching } = useQuery({
     queryKey: queryKeys.fetchUsuarios.all,
-    queryFn: () => getAllUsuarios(),
+    queryFn: () => getUsuariosByRol("admin"),
     initialData: [],
   });
 
@@ -69,7 +69,7 @@ export default function Page() {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Usuarios</CardTitle>
+        <CardTitle>Empleados</CardTitle>
         <div className="flex justify-between">
           <div />
           <div className="flex-nowrap">

@@ -1,4 +1,4 @@
-import { Car, Home, TicketCheck, User, UserCog } from "lucide-react";
+import { Car, Home, User, UserCog } from "lucide-react";
 
 import { NavUser } from "@/components/nav-user";
 import {
@@ -35,11 +35,6 @@ const items = [
     title: "Empleados",
     url: "/dashboard/empleados",
     icon: UserCog,
-  },
-  {
-    title: "Reservas",
-    url: "/dashboard/reservas",
-    icon: TicketCheck,
   },
 ];
 

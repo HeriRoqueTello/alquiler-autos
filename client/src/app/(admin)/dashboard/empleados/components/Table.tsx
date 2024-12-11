@@ -1,15 +1,15 @@
-import { Vehiculo } from "@/types/Vehiculo.types";
+import { Usuario } from "@/types/Vehiculo.types";
 
 interface TableProps {
-  vehiculos: Vehiculo[];
-  eliminarVehiculo: (id: string) => void;
-  modoEditar: (id: string, vehiculo: Vehiculo) => void;
+  usuarios: Usuario[];
+  // eliminarVehiculo: (id: string) => void;
+  // modoEditar: (id: string, vehiculo: Vehiculo) => void;
 }
 
 export const Table: React.FC<TableProps> = ({
-  vehiculos,
-  eliminarVehiculo,
-  modoEditar,
+  usuarios,
+  // eliminarVehiculo,
+  // modoEditar,
 }) => {
   return (
     <>
@@ -20,39 +20,51 @@ export const Table: React.FC<TableProps> = ({
         <thead className="ltr:text-left rtl:text-right">
           <tr>
             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-              Marca
+              Nombre
             </th>
             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-              Modelo
+              Email
             </th>
             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-              Estado
+              Telefono
+            </th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              Password
+            </th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              Rol
             </th>
             <th className="px-4 py-2"></th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 text-center">
-          {vehiculos?.map((vehiculo) => (
+          {usuarios?.map((vehiculo) => (
             <tr key={vehiculo._id}>
               <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
-                {vehiculo.marca}
+                {vehiculo.nombre}
               </td>
               <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
-                {vehiculo.modelo}
+                {vehiculo.email}
+              </td>
+              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
+                {vehiculo.telefono}
               </td>
               <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 uppercase">
-                {vehiculo.estado}
+                {vehiculo.password}
+              </td>
+              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 uppercase">
+                {vehiculo.rol}
               </td>
               <td className="space-x-2">
                 <button
                   className="rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700 delay-100 transition-colors"
-                  onClick={() => eliminarVehiculo(vehiculo._id!)}
+                  // onClick={() => eliminarVehiculo(vehiculo._id!)}
                 >
                   Eliminar
                 </button>
                 <button
                   className="rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700 delay-100 transition-colors"
-                  onClick={() => modoEditar(vehiculo._id!, vehiculo)}
+                  // onClick={() => modoEditar(vehiculo._id!, vehiculo)}
                 >
                   Actualizar
                 </button>
