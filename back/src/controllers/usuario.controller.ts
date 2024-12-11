@@ -80,7 +80,8 @@ export const deleteUser = async (req: Request, res: Response) => {
 export const getUsersByRole = async (req: Request, res: Response) => {
 
   try {
-    const users = await User.find({ role: req.params.role });
+    const users = await User.find({ rol: req.params.rol });
+    console.log(users);
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
