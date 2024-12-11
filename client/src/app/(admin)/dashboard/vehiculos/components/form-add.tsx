@@ -138,6 +138,15 @@ const VehiculoForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, vehiculo]);
 
+  const resetForm = () => {
+    form.reset({
+      marca: "",
+      modelo: "",
+      imagen: "",
+      estado: "disponible",
+    });
+  };
+
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (
     values: z.infer<typeof formSchema>
   ) => {
@@ -157,9 +166,11 @@ const VehiculoForm = ({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button size="sm">Agregar</Button>
+        <Button onClick={resetForm} size="sm">
+          Agregar
+        </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent aria-describedby="" className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
             {vehiculo ? "Actualizar el vehiculo" : "Crear nuevo vehiculo"}
