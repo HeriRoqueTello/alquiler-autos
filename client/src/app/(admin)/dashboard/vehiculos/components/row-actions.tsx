@@ -12,12 +12,14 @@ import {
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
+  onView: (value: TData) => void;
   onEdit: (value: TData) => void;
   onDelete: (value: TData) => void;
 }
 
 const DataTableRowActions = <TData,>({
   row,
+  onView,
   onEdit,
   onDelete,
 }: DataTableRowActionsProps<TData>) => {
@@ -32,6 +34,9 @@ const DataTableRowActions = <TData,>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => onView(row.original)}>
+          Mirar Vehiculo
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => onEdit(row.original)}>
           Editar
         </DropdownMenuItem>
