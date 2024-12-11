@@ -10,9 +10,11 @@ import { useCallback, useMemo, useState } from "react";
 import { getVehiculosColumns } from "./components/columns";
 import { DataTable } from "./components/data-table";
 import VehiculoForm from "./components/form-add";
+import { SheetViewVehiculo } from "./components/view-vehiculo";
 
 export default function Vehiculos() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [isViewSheetOpen, setIsViewSheetOpen] = useState<boolean>(false);
   const [selectedVehiculo, setSelectedVehiculo] = useState<Vehiculo | null>(
     null
   );
@@ -32,6 +34,11 @@ export default function Vehiculos() {
       });
     },
   });
+
+  const onView = useCallback((vehiculo: Vehiculo) => {
+    setSelectedVehiculo(vehiculo);
+    setIsViewSheetOpen(true);
+  }, []);
 
   const onDelete = useCallback((vehiculo: Vehiculo) => {
     deleteMutation.mutate(vehiculo._id, {
@@ -56,8 +63,11 @@ export default function Vehiculos() {
     setIsDialogOpen(true);
   }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const columns = useMemo(() => getVehiculosColumns({ onEdit, onDelete }), []);
+  const columns = useMemo(
+    () => getVehiculosColumns({ onView, onEdit, onDelete }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <Card className="h-full">
@@ -71,6 +81,16 @@ export default function Vehiculos() {
               vehiculo={selectedVehiculo}
               onOpenChange={(value) => {
                 setIsDialogOpen(value);
+                if (!value) {
+                  setSelectedVehiculo(null);
+                }
+              }}
+            />
+            <SheetViewVehiculo
+              isOpen={isViewSheetOpen}
+              vehiculo={selectedVehiculo}
+              onOpenChange={(value) => {
+                setIsViewSheetOpen(value);
                 if (!value) {
                   setSelectedVehiculo(null);
                 }
