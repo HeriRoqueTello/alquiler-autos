@@ -92,7 +92,7 @@ export default function Vehiculos() {
               onOpenChange={(value) => {
                 setIsViewSheetOpen(value);
                 if (!value) {
-                  setSelectedVehiculo(null);
+                  setTimeout(() => setSelectedVehiculo(null), 1000);
                 }
               }}
             />
