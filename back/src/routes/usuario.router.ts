@@ -4,11 +4,11 @@ import { getUsers, createUser, loginUser, getUserById, getUsersByRole, updateUse
 
 const router = Router();
 
-router.get('/list', getUsers);
+router.get('/users', getUsers);
 router.post('/register', createUser);
 router.post('/login', loginUser);
 router.get('/users/:id', getUserById);
-router.get('/users-by-rol/:rol', getUsersByRole);
+router.get('/users/rol/:rol', getUsersByRole);
 router.put('/users/:id', updateUser);
 router.delete('/users/:id', deleteUser);
 
