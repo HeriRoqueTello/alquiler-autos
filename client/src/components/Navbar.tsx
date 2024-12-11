@@ -242,6 +242,10 @@ export function Navbar() {
                   <Link href="/mis-reservas">Mis Reservas</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>
                   Cerrar sesión
                 </DropdownMenuItem>
