@@ -22,11 +22,15 @@ export const updateUsuario = async (id: string, usuario: CreateUsuarioDto) => {
 export const deleteUsuario = async (id: string) => {
   return axiosInstance.delete(`${URL}/${id}`);
 };
-export const loginUsuario = async (usuario: Usuario) => {
-  const { data } = await axiosInstance.post("/auth/login", usuario);
+export const loginUsuario = async (email: string, password: string) => {
+  const { data } = await axiosInstance.post("/auth/login", { email, password });
   return data;
 };
 export const getUsuariosByRol = async (rol: string) => {
   const { data } = await axiosInstance.get(`${URL}/rol/${rol}`);
+  return data;
+};
+export const getProfile = async () => {
+  const { data } = await axiosInstance.get("/auth/profile");
   return data;
 };

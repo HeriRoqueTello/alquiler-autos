@@ -39,6 +39,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useAuthStore } from "@/stores/auth";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -63,17 +64,14 @@ export function Navbar() {
   const pathname = usePathname();
 
   // Simulamos un estado de autenticación
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-  const [user, setUser] = React.useState({
-    name: "Juan Pérez",
-    email: "juan@ejemplo.com",
-  });
+  const isAuth = useAuthStore((state) => state.isAuth);
+  const logout = useAuthStore((state) => state.logout);
+  const profile = useAuthStore((state) => state.profile);
 
   const isActive = (href: string) => pathname === href;
   const handleLogout = () => {
     // Aquí iría la lógica real de cierre de sesión
-    setIsAuthenticated(false);
-    setUser({ name: "", email: "" });
+    logout();
   };
 
   return (
@@ -211,7 +209,7 @@ export function Navbar() {
         </div>
         <div className="ml-auto flex items-center space-x-4">
           <ModeToggle />
-          {isAuthenticated ? (
+          {isAuth && profile ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -221,17 +219,17 @@ export function Navbar() {
                   <Avatar className="h-8 w-8">
                     <AvatarImage
                       src="/placeholder.svg?height=32&width=32"
-                      alt={user.name}
+                      alt={profile.nombre}
                     />
-                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                    <AvatarFallback>{profile.nombre.charAt(0)}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuItem className="flex flex-col items-start">
-                  <div className="text-sm font-medium">{user.name}</div>
+                  <div className="text-sm font-medium">{profile.nombre}</div>
                   <div className="text-xs text-muted-foreground">
-                    {user.email}
+                    {profile.email}
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -273,10 +271,10 @@ export function Navbar() {
                     <TabsTrigger value="registro">Registro</TabsTrigger>
                   </TabsList>
                   <TabsContent value="login">
-                    <LoginForm onSuccess={() => setIsAuthenticated(true)} />
+                    <LoginForm />
                   </TabsContent>
                   <TabsContent value="registro">
-                    <RegistroForm onSuccess={() => setIsAuthenticated(true)} />
+                    <RegistroForm />
                   </TabsContent>
                 </Tabs>
               </DialogContent>

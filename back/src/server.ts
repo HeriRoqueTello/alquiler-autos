@@ -10,7 +10,12 @@ const app = express();
 
 connectDB();
 
-app.use(cors());
+const origin = process.env.ORIGIN || "http://localhost:3000";
+
+app.use(cors({
+  origin: [origin],
+  credentials: true
+}));
 app.use(express.json());
 app.use('/api', [vehiculoRoutes]);
 app.use('/auth', [usuarioRoutes, protectedRoutes]);

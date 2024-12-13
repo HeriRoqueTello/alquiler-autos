@@ -39,13 +39,6 @@ const items = [
 ];
 
 // User data
-const data = {
-  user: {
-    name: "Heri Roque",
-    email: "heriroque.22@gmail.com",
-    avatar: "https://avatars.githubusercontent.com/u/72213898?v=4",
-  },
-};
 
 export function AppSidebar() {
   return (
@@ -70,7 +63,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

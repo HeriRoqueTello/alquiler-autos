@@ -36,11 +36,7 @@ const formSchema = z
     path: ["confirmPassword"],
   });
 
-interface RegistroFormProps {
-  onSuccess: () => void;
-}
-
-export function RegistroForm({ onSuccess }: RegistroFormProps) {
+export function RegistroForm() {
   // const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -64,7 +60,6 @@ export function RegistroForm({ onSuccess }: RegistroFormProps) {
         title: "Registro exitoso",
         description: "Tu cuenta ha sido creada. ¡Bienvenido a AutoRent!",
       });
-      onSuccess();
     }, 2000);
   }
 

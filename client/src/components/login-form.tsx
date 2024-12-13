@@ -5,7 +5,6 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +17,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
+import { getProfile, loginUsuario } from "@/services/usuario.service";
+import { useAuthStore } from "@/stores/auth";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -28,13 +29,11 @@ const formSchema = z.object({
   }),
 });
 
-interface LoginFormProps {
-  onSuccess: () => void;
-}
-
-export function LoginForm({ onSuccess }: LoginFormProps) {
+export function LoginForm() {
   // const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const setToken = useAuthStore((state) => state.setToken);
+  const setProfile = useAuthStore((state) => state.setProfile);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,18 +43,29 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    console.log({ login: values });
-    // Aquí iría la lógica de autenticación real
-    setTimeout(() => {
+    try {
+      const { token } = await loginUsuario(values.email, values.password);
+      setToken(token);
+      const profile = await getProfile();
+      setProfile(profile.user);
+
+      setTimeout(() => {
+        setIsLoading(false);
+        toast({
+          title: "Inicio de sesión exitoso",
+          description: `Bienvenido de vuelta ${profile.user.nombre}!`,
+        });
+      }, 2000);
+    } catch (error) {
       setIsLoading(false);
+      console.log(error);
       toast({
-        title: "Inicio de sesión exitoso",
-        description: "Bienvenido de vuelta!",
+        title: "Error al iniciar sesión",
+        description: "Por favor verifica tus credenciales.",
       });
-      onSuccess();
-    }, 2000);
+    }
   }
 
   return (
@@ -90,15 +100,6 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
         </Button>
-        <div className="mt-4 text-center text-sm">
-          ¿No tienes una cuenta?{" "}
-          <Link
-            href="/registro"
-            className="font-medium text-primary hover:underline"
-          >
-            Regístrate aquí
-          </Link>
-        </div>
       </form>
     </Form>
   );
