@@ -1,9 +1,9 @@
-import { CreateVehiculoDto, Vehiculo } from "@/types/Vehiculo.types";
+import { CreateVehiculoDto, Vehiculo, VehiculoWithTarifas } from "@/types/Vehiculo.types";
 import axiosInstance from "./axiosInstance.service";
 
 const URL = "/api/vehiculos";
 
-export const getAllVehiculos = async (): Promise<Vehiculo[]> => {
+export const getAllVehiculos = async (): Promise<VehiculoWithTarifas[]> => {
   const { data } = await axiosInstance.get(URL)
   return data;
 };

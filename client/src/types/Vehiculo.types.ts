@@ -13,6 +13,11 @@ export const CreateVehiculoZod = z.object({
   estado: z.enum(["disponible", "reservado", "mantenimiento"]),
 });
 
+export interface Tarifas {
+  tarifaBase: number;
+  ageModel: number;
+}
+
 export type CreateVehiculoDto = z.infer<typeof CreateVehiculoZod>;
 
 export interface Vehiculo {
@@ -21,5 +26,9 @@ export interface Vehiculo {
   modelo: string;
   imagen: string;
   estado: EstadosEnum;
+}
+
+export interface VehiculoWithTarifas extends Vehiculo {
+  tarifas: Tarifas;
 }
 

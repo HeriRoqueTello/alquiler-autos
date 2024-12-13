@@ -25,7 +25,7 @@ const vehicleSchema = new Schema<IVehicle>({
   modelo: { type: String, required: true },
   estado: { type: String, required: true },
   imagen: { type: String, required: true },
-  tarifas: [tarifaSchema]
+  tarifas: tarifaSchema
 });
 
 export const Vehiculo = model<IVehicle>('Vehicle', vehicleSchema);
