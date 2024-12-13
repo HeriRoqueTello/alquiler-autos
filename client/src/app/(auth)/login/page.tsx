@@ -13,10 +13,13 @@ import {
 import { useAuthStore } from "@/stores/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Login() {
   const isAuth = useAuthStore((state) => state.isAuth);
-  if (isAuth) redirect("/");
+  useEffect(() => {
+    if (isAuth) redirect("/");
+  }, [isAuth]);
 
   return (
     <div className="container flex items-center justify-center min-h-screen py-10">

@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
+import { useAuthStore } from "@/stores/auth";
+import { getProfile } from "@/services/usuario.service";
+import { RolEnum } from "@/types/Usuario.types";
 
 const formSchema = z
   .object({
@@ -25,6 +28,9 @@ const formSchema = z
     }),
     email: z.string().email({
       message: "Por favor ingresa un correo electrónico válido.",
+    }),
+    telefono: z.string().min(9, {
+      message: "Por favor ingresa un número de teléfono válido.",
     }),
     password: z.string().min(6, {
       message: "La contraseña debe tener al menos 6 caracteres.",
@@ -45,22 +51,51 @@ export function RegistroForm() {
     defaultValues: {
       nombre: "",
       email: "",
+      telefono: "",
       password: "",
       confirmPassword: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const registro = useAuthStore((state) => state.register);
+  const setProfile = useAuthStore((state) => state.setProfile);
+  const errors = useAuthStore((state) => state.errors);
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
+
     // Aquí iría la lógica de registro real
-    console.log(values);
-    setTimeout(() => {
+    try {
+      const { nombre, email, telefono, password } = values;
+      const usuarioRegistrado = {
+        nombre,
+        email,
+        telefono,
+        password,
+        rol: RolEnum.cliente,
+      };
+      console.log(usuarioRegistrado);
+      await registro(usuarioRegistrado);
+      const profile = await getProfile();
+      console.log(profile);
+      setProfile(profile.user);
+
+      setTimeout(() => {
+        setIsLoading(false);
+        toast({
+          title: "Registro exitoso",
+          description: `Bienvenido ${profile.user.nombre}!`,
+        });
+      }, 2000);
+    } catch (error) {
       setIsLoading(false);
+      console.log(error);
       toast({
-        title: "Registro exitoso",
-        description: "Tu cuenta ha sido creada. ¡Bienvenido a AutoRent!",
+        variant: "destructive",
+        title: "Error en el registro",
+        description: errors.message,
       });
-    }, 2000);
+    }
   }
 
   return (
@@ -87,6 +122,19 @@ export function RegistroForm() {
               <FormLabel>Correo electrónico</FormLabel>
               <FormControl>
                 <Input placeholder="tu@ejemplo.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="telefono"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Teléfono</FormLabel>
+              <FormControl>
+                <Input placeholder="987654321" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

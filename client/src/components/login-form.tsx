@@ -62,6 +62,7 @@ export function LoginForm() {
       setIsLoading(false);
       console.log(error);
       toast({
+        variant: "destructive",
         title: "Error al iniciar sesión",
         description: "Por favor verifica tus credenciales.",
       });

@@ -49,6 +49,7 @@ export const getUsuariosColumns = ({
     header: "Rol",
   },
   {
+    accessorKey: "Acciones",
     id: "actions",
     cell: ({ row }) => (
       <DataTableRowActions

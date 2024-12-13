@@ -45,7 +45,7 @@ export const useAuthStore = create(
         try {
           const resRegister = await registerUsuario(user);
           set(() => ({
-            token: resRegister.data.token,
+            token: resRegister.token,
             isAuth: true,
           }));
         } catch (error) {

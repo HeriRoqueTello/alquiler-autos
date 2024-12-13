@@ -14,10 +14,21 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
 
+  const { email } = req.body;
+
   try {
+
+    const user = await User.findOne({ email });
+    if (user) {
+      res.status(400).json({ message: 'Este correo ya esta utilizado' });
+      return;
+    }
+
     const newUser = new User(req.body);
     const savedUser = await newUser.save();
-    res.json(savedUser);
+    console.log(savedUser)
+    const token = jwt.sign({ id: savedUser._id, nombre: savedUser.nombre, email: savedUser.email, telefono: savedUser.telefono, rol: savedUser.rol }, JWT_SECRET, { expiresIn: '1h' });
+    res.json({ message: 'Registro de usuario exitoso', token });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

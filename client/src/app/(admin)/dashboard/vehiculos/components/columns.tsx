@@ -44,6 +44,7 @@ export const getVehiculosColumns = ({
     header: "Estado",
   },
   {
+    accessorKey: "Acciones",
     id: "actions",
     cell: ({ row }) => (
       <DataTableRowActions
