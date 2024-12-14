@@ -84,6 +84,22 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 }
 
+export const updateRole = async (req: Request, res: Response) => {
+
+
+
+  try {
+
+
+
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, { rol: req.body.rol }, { new: true });
+
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 export const deleteUser = async (req: Request, res: Response) => {
 
   try {

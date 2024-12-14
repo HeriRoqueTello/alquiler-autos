@@ -5,7 +5,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -38,9 +37,6 @@ const formSchema = z.object({
   nombre: z.string(),
   email: z.string().email({ message: "Email invalido" }),
   telefono: z.string(),
-  password: z
-    .string()
-    .min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
   rol: z.enum(["admin", "cliente"]),
 });
 
@@ -131,18 +127,11 @@ const UsuarioForm = ({ isOpen, onOpenChange, usuario }: UsuarioFormProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, usuario]);
 
-  const resetForm = () => {
-    form.reset({
-      rol: "admin",
-    });
-  };
-
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (
     values: z.infer<typeof formSchema>
   ) => {
     const createDto: CreateUsuarioDto = {
       ...values,
-      password: values.password,
     };
     if (!usuario) {
       createMutation.mutate(createDto);
@@ -153,11 +142,6 @@ const UsuarioForm = ({ isOpen, onOpenChange, usuario }: UsuarioFormProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>
-        <Button onClick={resetForm} size="sm">
-          Agregar
-        </Button>
-      </DialogTrigger>
       <DialogContent aria-describedby="" className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
@@ -186,7 +170,7 @@ const UsuarioForm = ({ isOpen, onOpenChange, usuario }: UsuarioFormProps) => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email" {...field} />
+                    <Input disabled placeholder="Email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -200,23 +184,6 @@ const UsuarioForm = ({ isOpen, onOpenChange, usuario }: UsuarioFormProps) => {
                   <FormLabel>Telefono</FormLabel>
                   <FormControl>
                     <Input placeholder="Telefono" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="password"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contraseña</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Contraseña"
-                      {...field}
-                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

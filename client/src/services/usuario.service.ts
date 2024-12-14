@@ -19,6 +19,12 @@ export const updateUsuario = async (id: string, usuario: CreateUsuarioDto) => {
   const { data } = await axiosInstance.put(`${URL}/${id}`, usuario);
   return data;
 };
+
+export const updateRolUsuario = async (id: string, rol: string) => {
+  const { data } = await axiosInstance.post(`${URL}/${id}`, { rol });
+  return data;
+}
+
 export const deleteUsuario = async (id: string) => {
   return axiosInstance.delete(`${URL}/${id}`);
 };
