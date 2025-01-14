@@ -30,10 +30,9 @@ export default function SearchSection() {
               <SelectValue placeholder="Tipo de vehículo" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="sedan">Sedán</SelectItem>
+              <SelectItem value="sedan">Economico</SelectItem>
               <SelectItem value="suv">SUV</SelectItem>
               <SelectItem value="luxury">Lujo</SelectItem>
-              <SelectItem value="van">Van</SelectItem>
             </SelectContent>
           </Select>
         </div>
