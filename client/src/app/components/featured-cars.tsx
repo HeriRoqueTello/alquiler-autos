@@ -179,7 +179,7 @@ export function FeaturedCars() {
                   <h3 className="text-xl font-semibold">{car.name}</h3>
                   <div className="text-right">
                     <p className="text-2xl font-bold text-primary">
-                      ${car.pricePerDay}
+                      S/{car.pricePerDay}
                     </p>
                     <p className="text-sm text-muted-foreground">por día</p>
                   </div>

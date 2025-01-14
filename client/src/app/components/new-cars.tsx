@@ -108,7 +108,7 @@ export function NewestCars() {
                       <div className="text-right">
                         <p className="text-sm text-muted-foreground">Desde</p>
                         <p className="text-2xl font-bold text-primary">
-                          S/ {car.price}
+                          S/{car.price}
                         </p>
                         <p className="text-sm text-muted-foreground">/día</p>
                       </div>
