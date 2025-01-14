@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { usePathname } from "next/navigation";
+import { Footer } from "@/components/footer";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   // const [queryClient] = useState(
@@ -45,6 +46,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         {hiddenNavbar() ? null : <Navbar />}
 
         <main className="container mx-auto">{children}</main>
+        {hiddenNavbar() ? null : <Footer />}
       </ThemeProvider>
       <Toaster />
     </QueryClientProvider>
