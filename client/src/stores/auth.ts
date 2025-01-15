@@ -1,7 +1,7 @@
+import { getProfile, registerUsuario } from "@/services/usuario.service";
+import { Usuario } from "@/types/Usuario.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Usuario } from "@/types/Usuario.types";
-import { getProfile, registerUsuario } from "@/services/usuario.service";
 
 export interface Profile {
   id: string;
