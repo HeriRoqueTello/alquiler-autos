@@ -39,6 +39,7 @@ const brands = [
 
 export function VehicleFilters() {
   const [priceRange, setPriceRange] = useState([50, 500]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeFilters, setActiveFilters] = useState(0);
 
   return (

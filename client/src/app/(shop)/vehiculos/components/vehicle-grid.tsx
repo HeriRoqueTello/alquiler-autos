@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { AnimatePresence, motion } from "framer-motion";
 import { Fuel, Gauge, Heart, ShieldCheck, Star, Users } from "lucide-react";
+import Image from "next/image";
 
 const vehicles = {
   economicos: [
@@ -112,9 +113,11 @@ export function VehicleGrid({ category }: VehicleGridProps) {
           <motion.div key={vehicle.id} variants={item} layout>
             <Card className="group h-full overflow-hidden border-none shadow-md hover:shadow-lg transition-shadow duration-300">
               <div className="relative">
-                <img
+                <Image
                   src={vehicle.image || "/placeholder.svg"}
                   alt={vehicle.name}
+                  width={1000}
+                  height={1000}
                   className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <Button
