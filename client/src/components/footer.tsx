@@ -77,28 +77,12 @@ export function Footer() {
                   href="/vehiculos/economicos"
                   className="text-muted-foreground hover:text-primary"
                 >
-                  Económicos
+                  Vehiculos
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/vehiculos/suvs"
-                  className="text-muted-foreground hover:text-primary"
-                >
-                  SUVs
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/vehiculos/lujo"
-                  className="text-muted-foreground hover:text-primary"
-                >
-                  De Lujo
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/reservas"
+                  href="/reservar"
                   className="text-muted-foreground hover:text-primary"
                 >
                   Reservas

@@ -1,25 +1,28 @@
 "use client";
 
-import * as React from "react";
+import { Calendar, Car, Menu, Phone, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Car, Calendar, Phone, User, Menu } from "lucide-react";
+import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Logo } from "./logos/svgLogo";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/stores/auth";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { LoginForm } from "./login-form";
+import { Logo } from "./logos/svgLogo";
+import { ModeToggle } from "./mode-toggle";
+import { RegistroForm } from "./registro-form";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
   Dialog,
   DialogContent,
@@ -27,10 +30,6 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "./ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { LoginForm } from "./login-form";
-import { RegistroForm } from "./registro-form";
-import { ModeToggle } from "./mode-toggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,26 +37,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useAuthStore } from "@/stores/auth";
-
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Económicos",
-    href: "/vehiculos/economicos",
-    description: "Autos compactos y eficientes para viajes urbanos.",
-  },
-  {
-    title: "SUVs",
-    href: "/vehiculos/suvs",
-    description: "Vehículos espaciosos ideales para viajes familiares.",
-  },
-  {
-    title: "De lujo",
-    href: "/vehiculos/lujo",
-    description: "Experimenta el máximo confort con nuestra flota premium.",
-  },
-];
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -104,27 +84,15 @@ export function Navbar() {
               >
                 Inicio
               </MobileNavItem>
-              <div className="space-y-2">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start font-medium"
-                >
-                  Vehículos
-                </Button>
-                <div className="pl-4 space-y-2">
-                  {components.map((component) => (
-                    <MobileNavItem
-                      key={component.title}
-                      href={component.href}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {component.title}
-                    </MobileNavItem>
-                  ))}
-                </div>
-              </div>
               <MobileNavItem
-                href="/reserva"
+                href="/vehiculos"
+                icon={<Calendar className="mr-2 h-4 w-4" />}
+                onClick={() => setIsOpen(false)}
+              >
+                Vehiculos
+              </MobileNavItem>
+              <MobileNavItem
+                href="/reservar"
                 icon={<Calendar className="mr-2 h-4 w-4" />}
                 onClick={() => setIsOpen(false)}
               >
@@ -155,29 +123,26 @@ export function Navbar() {
                       isActive("/") && "bg-accent text-accent-foreground"
                     )}
                   >
-                    <Car className="mr-2 h-4 w-4" />
                     Inicio
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Vehículos</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                    {components.map((component) => (
-                      <ListItem
-                        key={component.title}
-                        title={component.title}
-                        href={component.href}
-                      >
-                        {component.description}
-                      </ListItem>
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
+                <Link href="/vehiculos" legacyBehavior passHref>
+                  <NavigationMenuLink
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      isActive("/vehiculos") &&
+                        "bg-accent text-accent-foreground"
+                    )}
+                  >
+                    <Car className="mr-2 h-4 w-4" />
+                    Vehiculos
+                  </NavigationMenuLink>
+                </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/reserva" legacyBehavior passHref>
+                <Link href="/reservar" legacyBehavior passHref>
                   <NavigationMenuLink
                     className={cn(
                       navigationMenuTriggerStyle(),
