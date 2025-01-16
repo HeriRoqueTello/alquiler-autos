@@ -18,7 +18,7 @@ import Link from "next/link";
 const items = [
   {
     title: "Inicio",
-    url: "/",
+    url: "/dashboard/home",
     icon: Home,
   },
   {
@@ -34,6 +34,11 @@ const items = [
   {
     title: "Empleados",
     url: "/dashboard/empleados",
+    icon: UserCog,
+  },
+  {
+    title: "View Client",
+    url: "/",
     icon: UserCog,
   },
 ];
