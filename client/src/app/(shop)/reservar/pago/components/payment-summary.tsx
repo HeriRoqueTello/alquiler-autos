@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Wallet } from "@mercadopago/sdk-react";
@@ -36,7 +36,7 @@ const reservationData = {
   ],
 };
 
-export function PaymentSummary() {
+function Payment() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
@@ -236,5 +236,14 @@ export function PaymentSummary() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export function PaymentSummary() {
+  return (
+    // You could have a loading skeleton as the `fallback` too
+    <Suspense>
+      <Payment />
+    </Suspense>
   );
 }
