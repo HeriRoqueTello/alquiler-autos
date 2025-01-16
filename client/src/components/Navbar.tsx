@@ -92,7 +92,7 @@ export function Navbar() {
                 Vehiculos
               </MobileNavItem>
               <MobileNavItem
-                href="/reservar"
+                href="/reservar/tiempo"
                 icon={<Calendar className="mr-2 h-4 w-4" />}
                 onClick={() => setIsOpen(false)}
               >
@@ -146,7 +146,7 @@ export function Navbar() {
                   <NavigationMenuLink
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      isActive("/reservas") &&
+                      isActive("/reservas/tiempo") &&
                         "bg-accent text-accent-foreground"
                     )}
                   >
@@ -211,7 +211,7 @@ export function Navbar() {
                   profile.rol === "admin" && (
                     <>
                       <DropdownMenuItem asChild>
-                        <Link href="/dashboard">Dashboard</Link>
+                        <Link href="/dashboard/home">Dashboard</Link>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                     </>
